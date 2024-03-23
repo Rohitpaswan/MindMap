@@ -2,45 +2,42 @@ import { useCallback, useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
+  MiniMap,
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import CustomNode from "./CustomNode";
+import NodeInfoTooltip from "./components/nodeInfo/NodeInfoTooltip";
 
 const nodeTypes = { customNode: CustomNode };
 const MindMap = () => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [name, setName] = useState("");
-  const [nodeInfo, setNodeInfo] = useState(null);
   const [element, setElement] = useState(null);
-  const [selectedColor, setSelectedColor] = useState("green");
-  const colorSet = [
-    "red",
-    "green",
-    "blue",
-    "purple",
-    "yellow",
-    "orange",
-    "indigo",
-  ];
+  const [selectedColor, setSelectedColor] = useState("#00ff00");
+  const [elementPosition, setElementPosition] = useState({ x: 0, y: 0 });
+  const [info, setInfo] = useState("");
 
   const addNode = useCallback(() => {
     const newNode = {
       id: (nodes.length + 1).toString(),
       type: "customNode",
       data: {
-        label: `${name}`,
-        description: `${nodeInfo}`,
-        color: `${selectedColor}`,
+        label: name,
+        description: info,
+        chart: <NodeInfoTooltip/>,
+        color: selectedColor,
       },
       position: { x: 100, y: 100 },
     };
     setNodes((prevNodes) => [...prevNodes, newNode]);
-    setSelectedColor("green");
-  }, [name, nodeInfo, nodes.length, selectedColor]);
+    setSelectedColor("#00ff00");
+    setName("");
+    setInfo("");
+  }, [info, name, nodes.length, selectedColor]);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -57,17 +54,16 @@ const MindMap = () => {
   );
 
   const onElementShow = (event, element) => {
+    const tooltipX = event.clientX + 5; // Subtracting 30 to offset the tooltip to the left
+    const tooltipY = event.clientY - 280;
+    setElementPosition({ x: tooltipX, y: tooltipY });
     setElement(element.data);
     console.log(event);
+    console.log(element);
   };
 
   const onElementHide = () => {
     setElement(null);
-  };
-
-  const handleColorChange = (color) => {
-    setSelectedColor(color);
-    console.log(selectedColor);
   };
 
   console.log(nodes);
@@ -75,41 +71,43 @@ const MindMap = () => {
   return (
     <div className="container">
       <div className="userInput">
-        <label htmlFor="node__input"> Node Name</label>
-        <input
-          type="text"
-          className="node__input"
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <br />
-        <label htmlFor="node__description"> description</label>
-        <input
-          type="text"
-          className="node__description"
-          onChange={(e) => setNodeInfo(e.target.value)}
-        />
-        <button type="button" className="addnode__btn" onClick={addNode}>
-          Add Node
-        </button>
-      </div>
-
-      <div className="color__picker">
-        <h2>Choose color</h2>
-        <div className="color__wrapper">
-          {colorSet.map((color, index) => {
-            return (
-              <button
-                className="color__picker"
-                type="button"
-                key={index}
-                style={{ backgroundColor: color }}
-                onClick={() => handleColorChange(color)}
-              ></button>
-            );
-          })}
+        <div className="input__wrapper">
+          <h3 className="input__title "> Title</h3> &nbsp; &nbsp;
+          <input
+            type="text"
+            className="node__input"
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
+        <div className="info__wrapper">
+          <h3 className="input__title "> Description</h3> &nbsp; &nbsp;
+          <textarea
+            type="text"
+            className="node__info"
+            onChange={(e) => setInfo(e.target.value)}
+            
+          />
+        </div>
+
+        <div className="color__picker">
+          <h3>Choose color</h3>&nbsp; &nbsp; &nbsp;
+          <input
+            type="color"
+            onChange={(e) => setSelectedColor(e.target.value)}
+            value={selectedColor}
+            
+          />
+          &nbsp;&nbsp;
+          <button type="button" className="addnode__btn" onClick={addNode}>
+            Add Node
+          </button>
+        </div>
+        {/* <div>
+          <input type="text" placeholder="x-axis" onChange={(e) => setXAxisValue(e.target.value)}/>
+          <input type="text" placeholder="y-axis" onChange={(e) => setYAxisValue(e.target.value)}/>
+        </div> */}
       </div>
+
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -119,14 +117,24 @@ const MindMap = () => {
         onNodeMouseEnter={onElementShow}
         onNodeMouseLeave={onElementHide}
         nodeTypes={nodeTypes}
+       
       >
         <Controls />
         <Background />
+        <MiniMap/>
       </ReactFlow>
+
       {element && (
-        <div className="info">
-          <span>node: {element.label}</span>
-          <div className="description">Description: {element.description}</div>
+        <div
+          style={{
+            position: "absolute",
+            top: `${elementPosition.y}px`,
+            left: `${elementPosition.x}px`,
+          }}
+        >
+          <h4>{element.label}</h4>
+          <span>{element.description}</span>
+          <div>{element?.chart}</div>
         </div>
       )}
     </div>

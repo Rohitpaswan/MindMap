@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "html-to-text": "^9.0.5",
+    "jodit-react": "^4.0.15",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-editor-js": "^2.1.0",
+    "react-simple-wysiwyg": "^3.0.2",
     "reactflow": "^11.10.4"
   },
   "devDependencies": {
