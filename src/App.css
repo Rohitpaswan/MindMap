@@ -8,142 +8,21 @@ body {
   height: 100%;
 }
 
-.container {
-  width: 100dvw;
-  height: 100dvh;
-  overflow-x: hidden;
-  padding: 1rem 2rem;
-
-}
 
 
-input,
-textarea {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #333;
-  width: 40%;
-  /* Or set a specific width */
-
-}
-
-input {
-  width: 70%;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  /* Remove default outline */
-  border-color: #66afe9;
-  /* Change border color on focus */
-}
-
-textarea {
-  resize: vertical;
-
-}
-
-.input__wrapper {
-  margin-bottom: 2vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  display: block;
-  max-width: 500px;
 
 
-}
-
-.info__wrapper {
-
-  display: flex;
-  align-items: center;
-
-}
-
-.input__title {
-  display: inline-block;
-  font-size: 24px;
-  text-transform: uppercase;
-}
-
-.addnode__btn {
-  padding: .5vw 1vw;
-  border-radius: 15px 0;
-  cursor: pointer;
-  margin-left: 1vw;
-  background-color: #5a5959;
-  color: #ccc;
-  width: 120px;
-}
-
-.addnode__btn:hover {
-  background-color: #ababab;
-  padding: .8 1.2vw;
-  border: 1px solid #c3c3c3;
-}
-
-.info {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
-.node__box {
-  max-width: 200px;
-  width: 180px;
-  height: 50px;
-  border: 1px solid lightblue;
-  color: #f3f3f3;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-
-}
-
-.color__picker {
-
-  height: 10%;
-
-  cursor: pointer;
-  border-radius: 50%;
-  width: 400px;
-  height: 35px;
-  margin-top: 2rem;
-  text-transform: uppercase;
-}
-
-.color__picker h2 {
-  display: inline-block;
-  font-size: 22px;
-}
-
-.color__picker {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
 
 
-input[type="color"] {
 
-  width: 50px;
-  /* Adjust width as needed */
-  height: 30px;
-  /* Adjust height as needed */
-  padding: 0;
-  margin: 0;
-  border: none;
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-  /* Show cursor as pointer */
-}
+
+
+
+
+
+
+
+
+
+
+

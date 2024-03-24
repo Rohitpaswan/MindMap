@@ -1,7 +1,7 @@
 
 
 import './App.css'
-import MindMap from './MindMap'
+import MindMap from './mindMap/MindMap'
 
 function App() {
  
