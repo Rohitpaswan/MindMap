@@ -1,4 +1,3 @@
-
 import { useCallback, useContext, useState } from "react";
 import ReactFlow, {
   Background,
@@ -12,7 +11,7 @@ import "reactflow/dist/style.css";
 import CustomNode from "../CustomNode";
 import NodeInfoTooltip from "../components/nodeInfo/NodeInfoTooltip";
 import { InputChartContext } from "../context/InputChartProvider";
-import './mindmap.css'
+import "./mindmap.css";
 
 const nodeTypes = { customNode: CustomNode };
 const MindMap = () => {
@@ -20,18 +19,17 @@ const MindMap = () => {
   const [edges, setEdges] = useState([]);
   const [name, setName] = useState("");
   const [element, setElement] = useState(null);
-  const [selectedColor, setSelectedColor] = useState("#00ff00");
+  const [selectedColor, setSelectedColor] = useState("#0000ff");
   const [info, setInfo] = useState("");
-  const [toggle, setToggle] = useState({elmHide:false ,chartHide:false });
-  const[xData , setXData] = useState("");
-  const[yData , setYData] = useState("");
-  const {  setXAxis,  setYAxis } = useContext(InputChartContext);
-  
+  const [toggle, setToggle] = useState({ elmHide: false, chartHide: false });
+  const [xData, setXData] = useState("");
+  const [yData, setYData] = useState("");
+  const { setXAxis, setYAxis } = useContext(InputChartContext);
 
   const addNode = useCallback(() => {
-    if(name === "") {
-        alert ("Enter Task Title");
-        return
+    if (name === "") {
+      alert("Enter Task Title");
+      return;
     }
     const newNode = {
       id: (nodes.length + 1).toString(),
@@ -45,11 +43,10 @@ const MindMap = () => {
       position: { x: 100, y: 100 },
     };
     setNodes((prevNodes) => [...prevNodes, newNode]);
-    setSelectedColor("#00ff00");
-    
-   toggle.chartHide = (xData !== "" && yData !=="") ? true : false
-    setName(""); // Clearing the name input field
-    setInfo(""); 
+    setSelectedColor("#0000ff");
+    toggle.chartHide = xData !== "" && yData !== "" ? true : false;
+    setName(""); 
+    setInfo("");
     setXData("");
     setYData("");
   }, [info, name, nodes.length, selectedColor, toggle, xData, yData]);
@@ -68,6 +65,7 @@ const MindMap = () => {
     [setEdges]
   );
 
+  //for delation on node
   const deleteNode = useCallback(() => {
     const newNode = [];
     for (let i = 0; i < nodes.length - 1; i++) {
@@ -80,10 +78,10 @@ const MindMap = () => {
 
   const onNodeClick = (event, element) => {
     setElement(element.data);
-    setToggle(prevState => ({
-        ...prevState,
-        elmHide: !prevState.elmHide
-      }));
+    setToggle((prevState) => ({
+      ...prevState,
+      elmHide: !prevState.elmHide,
+    }));
   };
 
   return (
@@ -93,12 +91,10 @@ const MindMap = () => {
           <div className="input__wrapper">
             <h3 className="input__title "> Task</h3> &nbsp; &nbsp;
             <input
-            
               type="text"
               className="node__input"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              
             />
           </div>
           <div className="info__wrapper">
@@ -112,7 +108,7 @@ const MindMap = () => {
           </div>
 
           <div className="color__picker">
-            <h3 >Choose color</h3>&nbsp; &nbsp; &nbsp;
+            <h3>Choose color</h3>&nbsp; &nbsp; &nbsp;
             <input
               type="color"
               onChange={(e) => setSelectedColor(e.target.value)}
@@ -133,20 +129,26 @@ const MindMap = () => {
             <span>X-axis</span>
             <input
               type="text"
-              className="node__info"
-              onChange={(e) => { setXData(e.target.value) ; setXAxis(xData)}}
+              className="chart__input"
+              onChange={(e) => {
+                setXData(e.target.value);
+                setXAxis(xData);
+              }}
               value={xData}
-              placeholder="x-axis"
+              placeholder="ex: item1, item2"
             />
           </div>
           <div className="chart">
             <span>Y-axis</span>
             <input
               type="text"
-              className="node__info"
-              onChange={(e) => { setYData(e.target.value) ; setYAxis(yData)}}
+              className="chart__input"
+              onChange={(e) => {
+                setYData(e.target.value);
+                setYAxis(yData);
+              }}
               value={yData}
-              placeholder="y-axis"
+              placeholder="ex: 100,200"
             />
           </div>
         </div>
@@ -155,10 +157,9 @@ const MindMap = () => {
       <div className="node__information">
         {toggle.elmHide && (
           <>
-            <h3>Title : {element.label}</h3>
-            <p>Details : {element.description}
-            </p>
-           {toggle.chartHide && (<div>{element.chart}</div>)}
+            <div className="elem__title"><span>Title :</span>{element.label}</div>
+            <div className="elem__info"><span>Details :</span> {element.description}</div>
+            {toggle.chartHide && <div>{element.chart}</div>}
           </>
         )}
       </div>
@@ -168,18 +169,15 @@ const MindMap = () => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        // onNodeMouseEnter={(event, element)=> {setElement(element.data); setToggle((pre) => !pre)}}
-        //  onNodeMouseLeave={()=> setToggle(pre => !pre)}
         onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
       >
-        <Controls />
+        <Controls position="top" />
+        <MiniMap position="bottom right" />
         <Background />
-        <MiniMap />
       </ReactFlow>
     </div>
   );
 };
 
 export default MindMap;
-

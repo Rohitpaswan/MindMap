@@ -1,6 +1,6 @@
 .container {
     width: 100dvw;
-    height: 100dvh;
+    height: 80dvh;
 }
 
 .user__input {
@@ -15,18 +15,18 @@
     justify-content: center;
     flex: .3;
     gap: 10px;
-    padding: 18px 6px 18px 10px;
+    padding: 18px 6px 18px 34px;
 }
 
 .node__info {
-    width: 50%;
+    width: 100%;
     padding: 12px;
+    margin-left: 20px;
 }
 
 .input__title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     display: inline-block;
-
     text-transform: uppercase;
 }
 
@@ -45,7 +45,7 @@ textarea {
     color: #333;
     width: 40%;
     border: 1px solid #c3c3c3;
-    /* Or set a specific width */
+   
 
 }
 
@@ -66,9 +66,9 @@ textarea:focus {
 }
 
 
-.color__picker h2 {
-    display: inline-block;
-    font-size: 12px;
+.color__picker h3 {
+    display: block;
+    font-size: 16px;
 }
 
 .color__picker {
@@ -157,11 +157,13 @@ input[type="color"] {
 .node__information {
     position: absolute;
     top: 5%;
-    border: 1px solid blue;
+    border: 1px solid rgb(37, 37, 63);
     width: 450px;
-    height: 300px;
-    right: 5%;
-    padding: 2vw;
+    height: 250px;
+    right: 4%;
+    padding: 1vw;
+    border-radius: 8px;
+    background-color: #e8e8e8;
 }
 
 .node__box {
@@ -176,4 +178,34 @@ input[type="color"] {
     justify-content: center;
     font-size: 22px;
 
+}
+
+
+
+.elem__title span{
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 12px;
+    
+}
+
+.elem__info span{
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 12px;
+}
+
+.elem__title{
+
+font-size: 18px;
+margin-bottom: 10px;
+
+}
+.elem__info{
+    font-size: 18px;
+}
+
+.chart__input{
+    padding: 12px;
+    width: 50%;
 }
