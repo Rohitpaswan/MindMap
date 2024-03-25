@@ -11,6 +11,7 @@ import "reactflow/dist/style.css";
 import CustomNode from "../CustomNode";
 import NodeInfoTooltip from "../components/nodeInfo/NodeInfoTooltip";
 import { InputChartContext } from "../context/InputChartProvider";
+import { v4 as uuidv4 } from 'uuid';
 import "./mindmap.css";
 
 const nodeTypes = { customNode: CustomNode };
@@ -25,14 +26,16 @@ const MindMap = () => {
   const [xData, setXData] = useState("");
   const [yData, setYData] = useState("");
   const { setXAxis, setYAxis } = useContext(InputChartContext);
+ 
 
   const addNode = useCallback(() => {
     if (name === "") {
       alert("Enter Task Title");
       return;
     }
+    const randomId = uuidv4();
     const newNode = {
-      id: (nodes.length + 1).toString(),
+      id:  randomId.toString(),
       type: "customNode",
       data: {
         label: name,
@@ -49,7 +52,7 @@ const MindMap = () => {
     setInfo("");
     setXData("");
     setYData("");
-  }, [info, name, nodes.length, selectedColor, toggle, xData, yData]);
+  }, [info, name, selectedColor, toggle, xData, yData]);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -66,14 +69,13 @@ const MindMap = () => {
   );
 
   //for delation on node
-  const deleteNode = useCallback(() => {
-    const newNode = [];
-    for (let i = 0; i < nodes.length - 1; i++) {
-      if (nodes.length > 0) newNode.push(nodes[i]);
-      else return "error";
-    }
-    setNodes(newNode);
-  }, [nodes]);
+ 
+  const deleteNode = () => {
+    console.log(nodes[0]);
+    const updatedNodes = nodes.slice(0, nodes.length - 1); // Efficiently create a new array
+    setNodes(updatedNodes);
+  };
+  
   console.log(nodes);
 
   const onNodeClick = (event, element) => {
@@ -132,7 +134,7 @@ const MindMap = () => {
               className="chart__input"
               onChange={(e) => {
                 setXData(e.target.value);
-                setXAxis(xData);
+                setXAxis(e.target.value);
               }}
               value={xData}
               placeholder="ex: item1, item2"
@@ -145,7 +147,7 @@ const MindMap = () => {
               className="chart__input"
               onChange={(e) => {
                 setYData(e.target.value);
-                setYAxis(yData);
+                setYAxis(e.target.value);
               }}
               value={yData}
               placeholder="ex: 100,200"
